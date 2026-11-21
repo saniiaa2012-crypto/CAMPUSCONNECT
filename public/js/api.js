@@ -1,14 +1,28 @@
 // Centralized API Client Wrapper
 const API = {
-  // Configurable base URL: reads from localStorage, window variable, or defaults to '/api'
+  // Configurable base URL: reads from localStorage, config.js, or defaults to '/api'
   getBaseUrl() {
-    if (window.CAMPUSCONNECT_API_URL) {
-      return window.CAMPUSCONNECT_API_URL.replace(/\/+$/, '');
-    }
+    // 1. Explicit manual override in browser localStorage (via "Set Backend URL")
     const customUrl = localStorage.getItem('cc_backend_api_url');
     if (customUrl) {
       return customUrl.replace(/\/+$/, '');
     }
+
+    // 2. Global window override
+    if (window.CAMPUSCONNECT_API_URL) {
+      return window.CAMPUSCONNECT_API_URL.replace(/\/+$/, '');
+    }
+
+    // 3. Cloudflare Pages config.js pointing to Render backend
+    if (window.CAMPUSCONNECT_CONFIG && window.CAMPUSCONNECT_CONFIG.BACKEND_URL) {
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return '/api';
+      }
+      let base = window.CAMPUSCONNECT_CONFIG.BACKEND_URL.replace(/\/+$/, '');
+      if (!base.endsWith('/api')) base += '/api';
+      return base;
+    }
+
     return '/api';
   },
 

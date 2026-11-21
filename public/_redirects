@@ -1,0 +1,5 @@
+# Cloudflare Pages Proxy Rewrites to Render Backend
+# This transparently routes frontend API calls from Cloudflare directly to Render with zero CORS overhead.
+
+/api/*      https://campusconnect-backend.onrender.com/api/:splat      200
+/uploads/*  https://campusconnect-backend.onrender.com/uploads/:splat  200

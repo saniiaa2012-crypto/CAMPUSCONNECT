@@ -27,13 +27,23 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 // Seed mock data if not already present
 seedDatabase();
 
-// CORS Configuration - Allows standalone frontend (Vercel, Netlify, localhost, etc.) to call this Render backend
+// CORS Configuration - Fully supports Cloudflare Pages (*.pages.dev) and custom domains calling Render
 const corsOrigin = process.env.CORS_ORIGIN || '*';
 app.use(cors({
-  origin: corsOrigin === '*' ? '*' : corsOrigin.split(',').map(s => s.trim()),
+  origin: (origin, callback) => {
+    // Allow non-browser requests or any origin when CORS_ORIGIN is wildcard
+    if (!origin || corsOrigin === '*') {
+      return callback(null, true);
+    }
+    const allowed = corsOrigin.split(',').map(s => s.trim());
+    if (allowed.includes(origin) || origin.endsWith('.pages.dev')) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use(express.json());

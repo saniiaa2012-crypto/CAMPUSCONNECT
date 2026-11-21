@@ -6,6 +6,50 @@ CampusConnect is a production-ready, full-stack campus platform designed to unif
 
 ---
 
+## ⚡ Connecting Frontend on Cloudflare Pages to Backend on Render
+
+This project is configured out-of-the-box to connect a **Cloudflare Pages frontend** with a **Render backend**.
+
+### 1. Deploy the Backend on Render
+1. Follow the **Deploying the Backend on Render** section above.
+2. Note your live backend URL (e.g. `https://campusconnect-backend.onrender.com`).
+
+### 2. Deploy the Frontend on Cloudflare Pages
+1. Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) > **Workers & Pages** > **Create application** > **Pages** > **Connect to Git**.
+2. Select your repository: `https://github.com/saniiaa2012-crypto/CAMPUSCONNECT.git`.
+3. Set the following build settings:
+   - **Project Name:** `campusconnect` (or your choice)
+   - **Production Branch:** `main`
+   - **Framework Preset:** `None`
+   - **Build Command:** *(Leave blank)*
+   - **Build Output Directory:** `public`
+   - **Root Directory:** *(Leave blank or `/`)*
+4. Click **Save and Deploy**. Cloudflare will build and host your frontend immediately at `https://campusconnect.pages.dev`!
+
+### 3. How the Frontend Communicates with Render
+Two built-in options ensure seamless communication with zero CORS issues:
+
+* **Automatic Direct Connection via `public/js/config.js`:**
+  The frontend loads `public/js/config.js`, which defines:
+  ```javascript
+  window.CAMPUSCONNECT_CONFIG = {
+    BACKEND_URL: 'https://campusconnect-backend.onrender.com'
+  };
+  ```
+  *(If your Render service URL is different, simply update `public/js/config.js` with your exact URL!)*
+
+* **Zero-CORS Transparent Proxy via `public/_redirects`:**
+  Cloudflare Pages automatically reads `public/_redirects` to proxy `/api/*` and `/uploads/*` requests from Cloudflare to Render without CORS restrictions:
+  ```text
+  /api/*      https://campusconnect-backend.onrender.com/api/:splat      200
+  /uploads/*  https://campusconnect-backend.onrender.com/uploads/:splat  200
+  ```
+
+* **In-App Dynamic Override:**
+  You can also change the backend URL directly in the live UI anytime: click the top-right profile avatar > **Set Backend URL** and enter your Render URL.
+
+---
+
 ## ☁️ Deploying the Backend on Render (BACKEND ONLY)
 
 This repository includes a `render.yaml` blueprint and a pure REST API server (`server/server.js`) optimized for **Render Web Service**.
