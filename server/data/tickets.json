@@ -1,0 +1,163 @@
+[
+  {
+    "id": "cf_101",
+    "title": "Hostel Block C 3rd Floor Wi-Fi Router Down",
+    "category": "Wi-Fi & IT",
+    "block": "Hostel Block C, Room 301-320",
+    "campus": "North Campus",
+    "priority": "High",
+    "status": "In Progress",
+    "statusIndex": 3,
+    "upvotes": 42,
+    "upvotedBy": [
+      "usr_student_1"
+    ],
+    "reportedBy": "usr_student_1",
+    "reporterName": "Aryan Sharma",
+    "isAnonymous": false,
+    "description": "The corridor access point in Wing 3 keeps rebooting every 10 minutes. Students preparing for semester midterms cannot connect to the college portal or attend online labs.",
+    "photoUrl": "/assets/campus-building.png",
+    "assignedTo": "Campus IT Network Team (Naveen Kumar)",
+    "eta": "Today by 4:00 PM",
+    "timeline": [
+      {
+        "stage": "Reported",
+        "timestamp": "2026-11-19T09:30:00.000Z",
+        "note": "Issue ticket submitted with 18 initial upvotes."
+      },
+      {
+        "stage": "Under Review",
+        "timestamp": "2026-11-19T10:15:00.000Z",
+        "note": "Validated by Facilities Desk. SLA target: 6 hours."
+      },
+      {
+        "stage": "Assigned",
+        "timestamp": "2026-11-19T11:00:00.000Z",
+        "note": "Dispatched to Campus Network Engineer Naveen Kumar."
+      },
+      {
+        "stage": "In Progress",
+        "timestamp": "2026-11-19T12:30:00.000Z",
+        "note": "Technician on-site. Replacing faulty PoE switch adapter."
+      }
+    ],
+    "createdAt": "2026-11-19T09:30:00.000Z"
+  },
+  {
+    "id": "cf_102",
+    "title": "Library Reading Hall 2 AC Failure",
+    "category": "Electrical & HVAC",
+    "block": "Central Library, 1st Floor East",
+    "campus": "Main Academic Area",
+    "priority": "Medium",
+    "status": "Assigned",
+    "statusIndex": 2,
+    "upvotes": 28,
+    "upvotedBy": [],
+    "reportedBy": "usr_student_2",
+    "reporterName": "Priya Verma",
+    "isAnonymous": false,
+    "description": "The split AC unit on the quiet reading hall has ceased cooling and makes a loud rattling sound. Room temperature is exceeding 32C during afternoon study hours.",
+    "photoUrl": "",
+    "assignedTo": "Voltas Facility Maintenance Contractor",
+    "eta": "Tomorrow 11:00 AM",
+    "timeline": [
+      {
+        "stage": "Reported",
+        "timestamp": "2026-11-18T14:00:00.000Z",
+        "note": "Reported by library patrons."
+      },
+      {
+        "stage": "Under Review",
+        "timestamp": "2026-11-18T16:00:00.000Z",
+        "note": "Inspected by Assistant Estate Officer."
+      },
+      {
+        "stage": "Assigned",
+        "timestamp": "2026-11-19T09:00:00.000Z",
+        "note": "Work order #VLT-449 issued for compressor inspection."
+      }
+    ],
+    "createdAt": "2026-11-18T14:00:00.000Z"
+  },
+  {
+    "id": "cf_103",
+    "title": "Main Academic Block Water Cooler Filter Overflow",
+    "category": "Water & Hygiene",
+    "block": "Academic Block A, Ground Floor Near Gate 2",
+    "campus": "North Wing",
+    "priority": "Urgent",
+    "status": "Resolved",
+    "statusIndex": 4,
+    "upvotes": 56,
+    "upvotedBy": [
+      "usr_student_1"
+    ],
+    "reportedBy": "usr_student_3",
+    "reporterName": "Anonymous Student",
+    "isAnonymous": true,
+    "description": "Water filtration drainage line cracked; clean drinking water is leaking across the main corridor, creating a slip hazard for morning lectures.",
+    "photoUrl": "",
+    "assignedTo": "Plumbing & Sanitation Dept",
+    "resolutionProof": "Replaced drain piping and calibrated UV filter. Water pressure normalized.",
+    "resolvedAt": "2026-11-17T16:45:00.000Z",
+    "timeline": [
+      {
+        "stage": "Reported",
+        "timestamp": "2026-11-17T08:15:00.000Z",
+        "note": "Reported as urgent slip risk."
+      },
+      {
+        "stage": "Under Review",
+        "timestamp": "2026-11-17T08:45:00.000Z",
+        "note": "Priority escalated to Urgent."
+      },
+      {
+        "stage": "Assigned",
+        "timestamp": "2026-11-17T09:10:00.000Z",
+        "note": "Assigned to On-duty Plumber."
+      },
+      {
+        "stage": "In Progress",
+        "timestamp": "2026-11-17T11:00:00.000Z",
+        "note": "Repair underway."
+      },
+      {
+        "stage": "Resolved",
+        "timestamp": "2026-11-17T16:45:00.000Z",
+        "note": "Sign-off complete with estate inspection."
+      }
+    ],
+    "createdAt": "2026-11-17T08:15:00.000Z"
+  },
+  {
+    "id": "cf_104",
+    "title": "Seminar Hall 4 Projector HDMI Cable Damaged",
+    "category": "Classroom Infra",
+    "block": "Lecture Complex B, Hall 4",
+    "campus": "Main Academic Area",
+    "priority": "Low",
+    "status": "Under Review",
+    "statusIndex": 1,
+    "upvotes": 14,
+    "upvotedBy": [],
+    "reportedBy": "usr_student_1",
+    "reporterName": "Aryan Sharma",
+    "isAnonymous": false,
+    "description": "The ceiling mount HDMI cable head is bent and flickers intermittently during club presentations and lab lectures.",
+    "photoUrl": "",
+    "timeline": [
+      {
+        "stage": "Reported",
+        "timestamp": "2026-11-20T11:20:00.000Z",
+        "note": "Logged by student club organizers."
+      },
+      {
+        "stage": "Under Review",
+        "timestamp": "2026-11-20T13:00:00.000Z",
+        "note": "Audio-Visual desk evaluating replacement cable stock."
+      }
+    ],
+    "createdAt": "2026-11-20T11:20:00.000Z"
+  }
+]

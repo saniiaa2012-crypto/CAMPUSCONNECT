@@ -1,0 +1,70 @@
+[
+  {
+    "id": "evt_1",
+    "title": "DTU Sprint National Hackathon 2026",
+    "category": "Hackathon",
+    "organizer": "IEEE & ACM Student Chapter",
+    "date": "Dec 12 - Dec 14, 2026",
+    "time": "36 Hours Non-stop",
+    "venue": "Dr. B.R. Ambedkar Auditorium & Virtual",
+    "mode": "Hybrid",
+    "prizePool": "₹1,50,000 INR",
+    "teamsRegistered": 124,
+    "maxTeams": 200,
+    "bannerImage": "/assets/diverse-students.png",
+    "description": "India's premier collegiate sprint. Build solutions addressing Smart Education, AI for Healthcare, FinTech, and Sustainable Campus Green Infrastructure.",
+    "registeredUsers": [
+      "usr_student_1"
+    ],
+    "tags": [
+      "Hackathon",
+      "Cash Prize",
+      "Goodies",
+      "Mentorship"
+    ]
+  },
+  {
+    "id": "evt_2",
+    "title": "Cracking Placement Interviews: From Campus to Tier-1 Startups",
+    "category": "Placement & Career",
+    "organizer": "Training & Placement Cell",
+    "date": "Nov 28, 2026",
+    "time": "5:00 PM - 7:30 PM IST",
+    "venue": "Virtual (Google Meet Live Stream)",
+    "mode": "Online",
+    "prizePool": "Certificate + Free Resume Review",
+    "teamsRegistered": 340,
+    "maxTeams": 500,
+    "bannerImage": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop&q=80",
+    "description": "Interactive fireside chat with DTU and IIT alumni now working as Senior Software Engineers at Google, Uber, and Microsoft. Live DSA mock interview walkthrough.",
+    "registeredUsers": [
+      "usr_student_1"
+    ],
+    "tags": [
+      "Interview Prep",
+      "Alumni",
+      "Career Advice"
+    ]
+  },
+  {
+    "id": "evt_3",
+    "title": "Campus Pitch Fest: Student Founders & Angel Investors",
+    "category": "Entrepreneurship",
+    "organizer": "E-Cell Innovation Incubator",
+    "date": "Dec 05, 2026",
+    "time": "10:00 AM - 4:00 PM IST",
+    "venue": "Convention Center Hall 1",
+    "mode": "In-Person",
+    "prizePool": "₹5,00,000 Seed Grant Pool",
+    "teamsRegistered": 38,
+    "maxTeams": 50,
+    "bannerImage": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=500&auto=format&fit=crop&q=80",
+    "description": "Showcase your prototype to prominent angel syndicates, venture partners, and successful student startup alumni. Get direct grant funding and incubation support.",
+    "registeredUsers": [],
+    "tags": [
+      "Pitching",
+      "Funding",
+      "Startup"
+    ]
+  }
+]

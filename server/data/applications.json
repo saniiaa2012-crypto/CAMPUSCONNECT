@@ -1,0 +1,50 @@
+[
+  {
+    "id": "app_1",
+    "opportunityId": "opp_1",
+    "opportunityTitle": "React & Frontend Developer Intern",
+    "company": "Gurugram Tech Innovations",
+    "studentId": "usr_student_1",
+    "studentName": "Aryan Sharma",
+    "studentEmail": "aryan@campusconnect.edu",
+    "status": "Shortlisted",
+    "stageIndex": 2,
+    "stipendFormatted": "₹18,000 / mo",
+    "appliedAt": "2026-10-17T15:20:00.000Z",
+    "coverNote": "Excited about building responsive student web apps. Built 3 full-stack React projects on my GitHub.",
+    "portfolioUrl": "https://github.com/aryan-dev",
+    "feedback": "Strong portfolio projects. Shortlisted for technical round."
+  },
+  {
+    "id": "app_2",
+    "opportunityId": "opp_2",
+    "opportunityTitle": "AI & Data Research Assistant",
+    "company": "DTU Advanced AI & Robotics Lab",
+    "studentId": "usr_student_1",
+    "studentName": "Aryan Sharma",
+    "studentEmail": "aryan@campusconnect.edu",
+    "status": "Interview",
+    "stageIndex": 3,
+    "stipendFormatted": "₹22,000 / mo",
+    "appliedAt": "2026-10-20T10:10:00.000Z",
+    "coverNote": "Interested in AI reasoning and benchmark evaluation.",
+    "portfolioUrl": "https://github.com/aryan-dev",
+    "interviewDate": "2026-11-25 14:00 IST",
+    "feedback": "Panel interview scheduled at Lab 4B."
+  },
+  {
+    "id": "app_3",
+    "opportunityId": "opp_4",
+    "opportunityTitle": "UI/UX Product Design Fellow",
+    "company": "DesignSphere Studio",
+    "studentId": "usr_student_1",
+    "studentName": "Aryan Sharma",
+    "studentEmail": "aryan@campusconnect.edu",
+    "status": "Applied",
+    "stageIndex": 0,
+    "stipendFormatted": "₹20,000 / mo",
+    "appliedAt": "2026-11-01T09:00:00.000Z",
+    "coverNote": "Keen to contribute to Figma component libraries and accessible design.",
+    "portfolioUrl": "https://behance.net/aryan-design"
+  }
+]

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>CampusConnect — Operating System for Indian Higher Education</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#5341cd",
+            "primary-hover": "#4532b8",
+            "primary-container": "#6c5ce7",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#faf6ff",
+            secondary: "#0060a9",
+            tertiary: "#006461",
+            "tertiary-accent": "#00cec9",
+            background: "#fbf8ff",
+            surface: "#fbf8ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f4f2ff",
+            "surface-container": "#eeecff",
+            "surface-container-high": "#e7e6ff",
+            "on-surface": "#171931",
+            "on-surface-variant": "#474554",
+            outline: "#787586",
+            "outline-variant": "#c8c4d7",
+            error: "#ba1a1a"
+          },
+          fontFamily: {
+            headline: ["Plus Jakarta Sans", "sans-serif"],
+            body: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="bg-background text-on-surface antialiased font-body flex flex-col min-h-screen">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-nav shadow-sm">
+    <div class="h-20 max-w-[1280px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Campus Tag -->
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="/index.html" class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-white shadow-md shadow-primary/20">
+            <span class="material-symbols-outlined text-[24px]">school</span>
+          </div>
+          <div>
+            <span class="font-headline font-extrabold text-xl sm:text-2xl text-primary tracking-tight block">CampusConnect</span>
+            <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase block -mt-1">India Ecosystem</span>
+          </div>
+        </a>
+
+        <!-- Campus Location Selector -->
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-xs font-semibold text-on-surface">
+          <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+          <span>DTU & Delhi-NCR Hubs</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <a href="/index.html" class="px-3.5 py-2 rounded-xl bg-primary text-white font-semibold shadow-sm">Home</a>
+        <a href="/opportunities.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Opportunities</a>
+        <a href="/campusfix.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-1.5">
+          <span>CampusFix</span>
+          <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#E6F8F4] text-[#00B894] text-[10px] font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#00B894] pulse-indicator"></span>Active
+          </span>
+        </a>
+        <a href="/services.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Services</a>
+        <a href="/events.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Events & Hackathons</a>
+      </nav>
+
+      <!-- Auth & Actions Section (Managed by auth.js) -->
+      <div id="navbar-auth-section" class="flex items-center gap-2 sm:gap-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN HERO CONTENT -->
+  <main class="flex-1 pt-24 pb-16">
+    <div class="relative w-full overflow-hidden">
+      <!-- Ambient Glow Background -->
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-primary/20 via-[#3f9eff]/15 to-[#00cec9]/20 blur-3xl pointer-events-none rounded-full"></div>
+
+      <!-- Hero Section -->
+      <section class="max-w-[1240px] mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-12">
+        <div class="flex flex-col items-center text-center max-w-4xl mx-auto space-y-6">
+          
+          <!-- Top Indian Colleges Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-primary text-xs sm:text-sm font-semibold shadow-sm">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+            <span>Built for 45,000+ Colleges Across Tier 1, 2 & 3 Campuses in India</span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1 class="font-headline text-4xl sm:text-6xl font-extrabold tracking-tight text-on-surface leading-[1.15]">
+            Your Campus. <span class="bg-gradient-to-r from-primary via-primary-container to-secondary bg-clip-text text-transparent">Your Opportunities.</span> Your Community.
+          </h1>
+
+          <!-- Value Prop Description -->
+          <p class="text-base sm:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+            One unified platform for college-verified internships with transparent INR stipends, accountable civic problem reporting (<span class="font-semibold text-primary">CampusFix</span>), and local student discounts.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a href="/opportunities.html" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-primary text-white font-semibold text-sm sm:text-base shadow-lg shadow-primary/25 hover:bg-primary-hover transition-all group">
+              <span>Explore Opportunities</span>
+              <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </a>
+            <a href="/campusfix.html" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-surface-container-lowest text-on-surface font-semibold text-sm sm:text-base border border-outline-variant/40 shadow-sm hover:bg-surface-container-low transition-all">
+              <span class="material-symbols-outlined text-[20px] text-[#00b894]">verified</span>
+              <span>Report CampusFix Issue</span>
+            </a>
+          </div>
+
+          <!-- Interactive Search Bar -->
+          <div class="w-full max-w-2xl pt-4">
+            <form onsubmit="handleHeroSearch(event)" class="relative flex items-center w-full bg-white rounded-full shadow-lg border border-primary/20 p-2 pl-5 focus-within:ring-2 focus-within:ring-primary/30 transition-all">
+              <span class="material-symbols-outlined text-outline text-[22px] mr-2">search</span>
+              <input id="hero-search-input" class="w-full bg-transparent text-sm sm:text-base text-on-surface placeholder:text-gray-400 focus:outline-none" placeholder="Search internships, skills (React, Python), or campus issues..." type="text"/>
+              <button type="submit" class="inline-flex items-center px-6 py-2.5 rounded-full bg-primary text-white text-xs sm:text-sm font-semibold hover:bg-primary-hover transition-colors">
+                Search
+              </button>
+            </form>
+            <div class="flex flex-wrap items-center justify-center gap-2 mt-3 text-xs text-on-surface-variant">
+              <span class="text-gray-400 font-medium">Trending:</span>
+              <a href="/opportunities.html?search=React" class="hover:text-primary font-medium transition-colors">#ReactDev</a>
+              <span>•</span>
+              <a href="/opportunities.html?search=AI" class="hover:text-primary font-medium transition-colors">#AILabs</a>
+              <span>•</span>
+              <a href="/campusfix.html?category=Wi-Fi" class="hover:text-primary font-medium transition-colors">#HostelWi-Fi</a>
+              <span>•</span>
+              <a href="/services.html" class="hover:text-primary font-medium transition-colors">#ThesisPrinting</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Statistics Strip -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-5xl mx-auto">
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <p class="font-headline text-2xl sm:text-3xl font-extrabold text-primary" id="kpi-opps">50+</p>
+            <p class="text-xs text-gray-500 font-medium mt-1">Verified Roles & Gigs</p>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <p class="font-headline text-2xl sm:text-3xl font-extrabold text-[#00b894]">₹18,500</p>
+            <p class="text-xs text-gray-500 font-medium mt-1">Avg. Monthly Stipend</p>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <p class="font-headline text-2xl sm:text-3xl font-extrabold text-secondary" id="kpi-tickets">94%</p>
+            <p class="text-xs text-gray-500 font-medium mt-1">CampusFix SLA Compliance</p>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <p class="font-headline text-2xl sm:text-3xl font-extrabold text-tertiary">₹6.5L+</p>
+            <p class="text-xs text-gray-500 font-medium mt-1">Hackathon Prize Pools</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED SECTIONS PREVIEW -->
+      <section class="max-w-[1240px] mx-auto px-4 sm:px-6 py-12">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-xs font-bold text-primary tracking-wider uppercase">Hot Right Now</span>
+            <h2 class="font-headline text-2xl sm:text-3xl font-bold text-on-surface">Trending Campus Opportunities</h2>
+          </div>
+          <a href="/opportunities.html" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+            <span>View All</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <div id="home-opportunities-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Loaded dynamically -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-pulse h-64"></div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-pulse h-64"></div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-pulse h-64"></div>
+        </div>
+      </section>
+
+      <!-- CAMPUSFIX CIVIC PIPELINE PREVIEW -->
+      <section class="max-w-[1240px] mx-auto px-4 sm:px-6 py-12">
+        <div class="bg-gradient-to-br from-[#171931] to-[#2c2e47] rounded-3xl p-6 sm:p-10 text-white relative overflow-hidden shadow-xl">
+          <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold mb-4 backdrop-blur-sm">
+              <span class="w-2 h-2 rounded-full bg-[#00cec9]"></span>
+              <span>Accountable Institutional SLA Tracking</span>
+            </div>
+            <h2 class="font-headline text-3xl sm:text-4xl font-extrabold leading-tight">
+              CampusFix: Transforming Broken Wi-Fi & Infrastructure into Accountable Action.
+            </h2>
+            <p class="text-sm sm:text-base text-gray-300 mt-3 leading-relaxed">
+              No more forgotten physical complaint registers. Submit geo-located tickets, mobilize student upvotes, and monitor live progress across the 5-phase SLA pipeline.
+            </p>
+            <div class="flex flex-wrap gap-4 mt-6">
+              <a href="/campusfix.html" class="px-5 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-all shadow-md">
+                View Active Campus Tickets
+              </a>
+              <button onclick="document.location.href='/campusfix.html?action=report'" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-all">
+                Submit an Issue
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-100 py-10 mt-auto">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[24px]">school</span>
+        <span class="font-headline font-bold text-gray-900">CampusConnect</span>
+        <span class="text-xs text-gray-400">© 2026 Higher Education Ecosystem India</span>
+      </div>
+      <div class="flex gap-6 text-xs text-gray-500 font-medium">
+        <a href="/opportunities.html" class="hover:text-primary transition-colors">Opportunities</a>
+        <a href="/campusfix.html" class="hover:text-primary transition-colors">CampusFix</a>
+        <a href="/services.html" class="hover:text-primary transition-colors">Services</a>
+        <a href="/events.html" class="hover:text-primary transition-colors">Events</a>
+        <a href="/dashboard.html" class="hover:text-primary transition-colors">Dashboard</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/toast.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function handleHeroSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('hero-search-input').value.trim();
+      if (query) {
+        window.location.href = `/opportunities.html?search=${encodeURIComponent(query)}`;
+      }
+    }
+
+    async function loadFeaturedOpportunities() {
+      try {
+        const res = await API.get('/opportunities');
+        if (res.success && res.data) {
+          const featured = res.data.slice(0, 3);
+          const grid = document.getElementById('home-opportunities-grid');
+          if (!grid) return;
+
+          document.getElementById('kpi-opps').textContent = `${res.data.length}+`;
+
+          grid.innerHTML = featured.map(opp => `
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+              <div>
+                <div class="flex items-start justify-between gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img src="${opp.companyLogo}" class="w-full h-full object-cover">
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-xs font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
+                    ${opp.workMode}
+                  </span>
+                </div>
+                <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
+                <p class="text-xs font-medium text-gray-500 mt-1">${opp.company} • ${opp.location}</p>
+                <p class="text-xs text-gray-600 mt-3 line-clamp-2 leading-relaxed">${opp.description}</p>
+                
+                <div class="flex flex-wrap gap-1.5 mt-4">
+                  ${(opp.tags || []).slice(0, 3).map(tag => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${tag}</span>`).join('')}
+                </div>
+              </div>
+
+              <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
+                  <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted}</p>
+                </div>
+                <a href="/opportunities.html" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover transition-colors">
+                  View Role
+                </a>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Failed to load featured opportunities:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFeaturedOpportunities);
+  </script>
+</body>
+</html>

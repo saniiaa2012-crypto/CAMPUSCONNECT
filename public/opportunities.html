@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Opportunities Marketplace — CampusConnect</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#5341cd",
+            "primary-hover": "#4532b8",
+            "primary-container": "#6c5ce7",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#faf6ff",
+            secondary: "#0060a9",
+            tertiary: "#006461",
+            "tertiary-accent": "#00cec9",
+            background: "#fbf8ff",
+            surface: "#fbf8ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f4f2ff",
+            "surface-container": "#eeecff",
+            "surface-container-high": "#e7e6ff",
+            "on-surface": "#171931",
+            "on-surface-variant": "#474554",
+            outline: "#787586",
+            "outline-variant": "#c8c4d7",
+            error: "#ba1a1a"
+          },
+          fontFamily: {
+            headline: ["Plus Jakarta Sans", "sans-serif"],
+            body: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="bg-background text-on-surface antialiased font-body flex flex-col min-h-screen">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-nav shadow-sm">
+    <div class="h-20 max-w-[1280px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="/index.html" class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-white shadow-md shadow-primary/20">
+            <span class="material-symbols-outlined text-[24px]">school</span>
+          </div>
+          <div>
+            <span class="font-headline font-extrabold text-xl sm:text-2xl text-primary tracking-tight block">CampusConnect</span>
+            <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase block -mt-1">India Ecosystem</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <a href="/index.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Home</a>
+        <a href="/opportunities.html" class="px-3.5 py-2 rounded-xl bg-primary text-white font-semibold shadow-sm">Opportunities</a>
+        <a href="/campusfix.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-1.5">
+          <span>CampusFix</span>
+          <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#E6F8F4] text-[#00B894] text-[10px] font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#00B894] pulse-indicator"></span>Active
+          </span>
+        </a>
+        <a href="/services.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Services</a>
+        <a href="/events.html" class="px-3.5 py-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">Events & Hackathons</a>
+      </nav>
+
+      <div id="navbar-auth-section" class="flex items-center gap-2 sm:gap-3"></div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEW -->
+  <main class="flex-1 pt-24 pb-16">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 py-6">
+      
+      <!-- Top Title & Action Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">work</span>
+            <span>Vetted Student Opportunities</span>
+          </div>
+          <h1 class="font-headline text-2xl sm:text-3xl font-extrabold text-gray-900">Career & Internship Engine</h1>
+          <p class="text-xs sm:text-sm text-gray-500 mt-1">Discover verified campus roles, micro-internships, and research fellowships across India.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="post-opp-btn" onclick="openPostModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs sm:text-sm font-semibold shadow-md hover:bg-primary-hover transition-all">
+            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>Post Opportunity</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters Container -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm mb-8 space-y-4">
+        
+        <!-- Live Search Input -->
+        <div class="relative flex items-center w-full">
+          <span class="material-symbols-outlined text-gray-400 text-[22px] absolute left-4">search</span>
+          <input id="search-input" oninput="debounceSearch()" type="text" placeholder="Search by job title, skill (React, Python), company, or location..." class="w-full pl-12 pr-4 py-3 rounded-xl bg-surface-container-low border border-transparent focus:border-primary/30 focus:bg-white text-sm text-gray-900 focus:outline-none transition-all">
+          <button onclick="clearSearch()" class="absolute right-4 text-gray-400 hover:text-gray-600 text-xs font-semibold">Clear</button>
+        </div>
+
+        <!-- Filter Pills Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-gray-100">
+          
+          <!-- Category Pills -->
+          <div class="flex flex-wrap items-center gap-1.5 text-xs font-medium" id="category-filters">
+            <button onclick="setFilter('category', 'All')" class="filter-cat px-3 py-1.5 rounded-full bg-primary text-white font-semibold">All</button>
+            <button onclick="setFilter('category', 'Software Engineering')" class="filter-cat px-3 py-1.5 rounded-full bg-surface-container-low text-gray-600 hover:bg-surface-container">Software</button>
+            <button onclick="setFilter('category', 'Data Science & AI')" class="filter-cat px-3 py-1.5 rounded-full bg-surface-container-low text-gray-600 hover:bg-surface-container">AI & Data</button>
+            <button onclick="setFilter('category', 'Marketing & Community')" class="filter-cat px-3 py-1.5 rounded-full bg-surface-container-low text-gray-600 hover:bg-surface-container">Marketing</button>
+            <button onclick="setFilter('category', 'Design & Creative')" class="filter-cat px-3 py-1.5 rounded-full bg-surface-container-low text-gray-600 hover:bg-surface-container">Design</button>
+          </div>
+
+          <!-- Work Mode Dropdown -->
+          <div class="flex items-center gap-3 text-xs">
+            <label class="text-gray-500 font-medium">Mode:</label>
+            <select id="mode-select" onchange="setFilter('workMode', this.value)" class="px-3 py-1.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs focus:outline-none">
+              <option value="All">All Modes</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+
+            <!-- Min Stipend -->
+            <label class="text-gray-500 font-medium ml-2">Min Stipend:</label>
+            <select id="stipend-select" onchange="setFilter('minStipend', this.value)" class="px-3 py-1.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs focus:outline-none">
+              <option value="0">Any (₹0+)</option>
+              <option value="10000">₹10,000+</option>
+              <option value="15000">₹15,000+</option>
+              <option value="20000">₹20,000+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opportunities Results Count & Grid -->
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-gray-500" id="results-count">Loading opportunities...</p>
+      </div>
+
+      <div id="opportunities-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- QUICK APPLY MODAL -->
+  <div id="apply-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center p-4 modal-overlay">
+    <div class="bg-white w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeApplyModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+
+      <div class="mb-5">
+        <span class="inline-block px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-1">Fast 1-Click Application</span>
+        <h3 id="apply-modal-title" class="text-xl font-bold text-gray-900 font-headline">Apply for Role</h3>
+        <p id="apply-modal-company" class="text-xs text-gray-500 mt-0.5"></p>
+      </div>
+
+      <form onsubmit="submitApplication(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Applicant Name</label>
+          <input type="text" id="apply-name" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-600">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">College & Department</label>
+          <input type="text" id="apply-college" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-600">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Portfolio / GitHub / Resume Link</label>
+          <input type="url" id="apply-portfolio" required placeholder="https://github.com/username or portfolio link" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Why are you a good fit for this role?</label>
+          <textarea id="apply-cover" rows="3" required placeholder="Briefly highlight your relevant projects, course achievements, or experience..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"></textarea>
+        </div>
+
+        <button type="submit" id="apply-submit-btn" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-all shadow-md">
+          Submit Application
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- POST OPPORTUNITY MODAL (Recruiter / Faculty) -->
+  <div id="post-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center p-4 modal-overlay">
+    <div class="bg-white w-full max-w-xl rounded-3xl p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closePostModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+
+      <div class="mb-5">
+        <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#E6F8F4] text-[#00B894] text-[10px] font-bold uppercase tracking-wider mb-1">Employer / Faculty Portal</span>
+        <h3 class="text-xl font-bold text-gray-900 font-headline">Post a Campus Opportunity</h3>
+        <p class="text-xs text-gray-500 mt-0.5">Reach verified undergraduates across Indian campuses</p>
+      </div>
+
+      <form onsubmit="submitNewOpportunity(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Opportunity Title</label>
+          <input type="text" id="post-title" required placeholder="e.g. Full Stack Developer Intern" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Company / Organization</label>
+            <input type="text" id="post-company" required placeholder="e.g. Gurugram Tech" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Location</label>
+            <input type="text" id="post-location" required placeholder="e.g. Delhi / Remote" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Work Mode</label>
+            <select id="post-workmode" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs bg-white">
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Monthly Stipend (₹)</label>
+            <input type="number" id="post-stipend" required placeholder="18000" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Category</label>
+            <select id="post-category" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs bg-white">
+              <option value="Software Engineering">Software</option>
+              <option value="Data Science & AI">AI & Data</option>
+              <option value="Marketing & Community">Marketing</option>
+              <option value="Design & Creative">Design</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Role Description</label>
+          <textarea id="post-desc" rows="3" required placeholder="Describe what the student will work on..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Required Skills (comma-separated)</label>
+          <input type="text" id="post-tags" placeholder="React, Node.js, Git, Tailwind" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm">
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-all shadow-md">
+          Publish Opportunity Listing
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/toast.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    let currentFilters = {
+      search: '',
+      category: 'All',
+      workMode: 'All',
+      minStipend: '0'
+    };
+    let activeOpportunityForApply = null;
+
+    let searchTimer = null;
+    function debounceSearch() {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        currentFilters.search = document.getElementById('search-input').value.trim();
+        loadOpportunities();
+      }, 300);
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      currentFilters.search = '';
+      loadOpportunities();
+    }
+
+    function setFilter(key, val) {
+      currentFilters[key] = val;
+      if (key === 'category') {
+        document.querySelectorAll('.filter-cat').forEach(btn => {
+          if (btn.textContent.trim().toLowerCase().includes(val.toLowerCase()) || (val === 'All' && btn.textContent.trim() === 'All')) {
+            btn.className = 'filter-cat px-3 py-1.5 rounded-full bg-primary text-white font-semibold';
+          } else {
+            btn.className = 'filter-cat px-3 py-1.5 rounded-full bg-surface-container-low text-gray-600 hover:bg-surface-container';
+          }
+        });
+      }
+      loadOpportunities();
+    }
+
+    async function loadOpportunities() {
+      const container = document.getElementById('opportunities-list');
+      const countEl = document.getElementById('results-count');
+      
+      try {
+        const res = await API.get('/opportunities', currentFilters);
+        if (res.success && res.data) {
+          countEl.textContent = `Showing ${res.data.length} verified opportunities`;
+
+          if (res.data.length === 0) {
+            container.innerHTML = `
+              <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-gray-100 p-8">
+                <span class="material-symbols-outlined text-[48px] text-gray-300 mb-2">work_off</span>
+                <h3 class="font-headline font-bold text-lg text-gray-800">No opportunities match your filter</h3>
+                <p class="text-xs text-gray-500 mt-1">Try clearing your filters or searching with different keywords.</p>
+                <button onclick="clearSearch()" class="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Reset Filters</button>
+              </div>
+            `;
+            return;
+          }
+
+          container.innerHTML = res.data.map(opp => `
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+              <div>
+                <!-- Header: Logo, Type, Mode -->
+                <div class="flex items-start justify-between gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img src="${opp.companyLogo}" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
+                      ${opp.workMode}
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-bold">
+                      ${opp.type}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Title & Company -->
+                <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
+                <div class="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
+                  <span class="font-medium text-gray-700">${opp.company}</span>
+                  <span>•</span>
+                  <span>${opp.location}</span>
+                </div>
+
+                <!-- Description -->
+                <p class="text-xs text-gray-600 mt-3 line-clamp-3 leading-relaxed">${opp.description}</p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-1.5 mt-4">
+                  ${(opp.tags || []).map(t => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${t}</span>`).join('')}
+                </div>
+              </div>
+
+              <!-- Bottom Bar: Stipend & Quick Apply Action -->
+              <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
+                  <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted}</p>
+                </div>
+
+                ${opp.hasApplied 
+                  ? `<span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-[#00b894] text-xs font-bold inline-flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[16px]">check_circle</span> Applied (${opp.applicationStatus})
+                    </span>`
+                  : `<button onclick="openApplyModal('${opp.id}')" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover shadow-sm transition-all flex items-center gap-1">
+                      <span>Quick Apply</span>
+                      <span class="material-symbols-outlined text-[14px]">send</span>
+                    </button>`
+                }
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Error loading opportunities:', err);
+      }
+    }
+
+    async function openApplyModal(oppId) {
+      if (!Auth.isLoggedIn()) {
+        Auth.openAuthModal('login');
+        return;
+      }
+      try {
+        const res = await API.get(`/opportunities/${oppId}`);
+        if (res.success && res.data) {
+          activeOpportunityForApply = res.data;
+          const user = Auth.getUser();
+
+          document.getElementById('apply-modal-title').textContent = `Apply for ${res.data.title}`;
+          document.getElementById('apply-modal-company').textContent = `${res.data.company} • ${res.data.stipendFormatted}`;
+          document.getElementById('apply-name').value = user ? user.name : '';
+          document.getElementById('apply-college').value = user ? `${user.college} (${user.department})` : '';
+          document.getElementById('apply-portfolio').value = user?.resumeUrl || '';
+          document.getElementById('apply-modal').classList.remove('hidden');
+        }
+      } catch (err) {
+        Toast.error('Error', err.message);
+      }
+    }
+
+    function closeApplyModal() {
+      document.getElementById('apply-modal').classList.add('hidden');
+      activeOpportunityForApply = null;
+    }
+
+    async function submitApplication(e) {
+      e.preventDefault();
+      if (!activeOpportunityForApply) return;
+      const btn = document.getElementById('apply-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      try {
+        const payload = {
+          portfolioUrl: document.getElementById('apply-portfolio').value,
+          coverNote: document.getElementById('apply-cover').value
+        };
+
+        const res = await API.post(`/opportunities/${activeOpportunityForApply.id}/apply`, payload);
+        if (res.success) {
+          Toast.success('Applied Successfully!', res.message);
+          closeApplyModal();
+          loadOpportunities();
+        }
+      } catch (err) {
+        Toast.error('Submission Failed', err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Application';
+      }
+    }
+
+    function openPostModal() {
+      if (!Auth.isLoggedIn()) {
+        Auth.openAuthModal('login');
+        return;
+      }
+      const user = Auth.getUser();
+      if (user.role === 'student') {
+        Toast.warning('Recruiter Role Required', 'Switch your demo role to Recruiter or Faculty in the top bar to post opportunities.');
+        return;
+      }
+      document.getElementById('post-modal').classList.remove('hidden');
+    }
+
+    function closePostModal() {
+      document.getElementById('post-modal').classList.add('hidden');
+    }
+
+    async function submitNewOpportunity(e) {
+      e.preventDefault();
+      try {
+        const payload = {
+          title: document.getElementById('post-title').value,
+          company: document.getElementById('post-company').value,
+          location: document.getElementById('post-location').value,
+          workMode: document.getElementById('post-workmode').value,
+          stipend: document.getElementById('post-stipend').value,
+          category: document.getElementById('post-category').value,
+          description: document.getElementById('post-desc').value,
+          tags: document.getElementById('post-tags').value
+        };
+
+        const res = await API.post('/opportunities', payload);
+        if (res.success) {
+          Toast.success('Published!', res.message);
+          closePostModal();
+          loadOpportunities();
+        }
+      } catch (err) {
+        Toast.error('Error', err.message);
+      }
+    }
+
+    // Check URL parameters for search query
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchParam = urlParams.get('search');
+      if (searchParam) {
+        currentFilters.search = searchParam;
+        document.getElementById('search-input').value = searchParam;
+      }
+      loadOpportunities();
+    });
+
+    window.onAuthChange = () => {
+      loadOpportunities();
+    };
+  </script>
+</body>
+</html>
