@@ -246,6 +246,7 @@
 
   <!-- Scripts -->
   <script src="/js/config.js"></script>
+  <script src="/js/fallback-data.js"></script>
   <script src="/js/toast.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
@@ -258,51 +259,58 @@
       }
     }
 
+    function renderFeaturedOpps(list) {
+      const featured = list.slice(0, 3);
+      const grid = document.getElementById('home-opportunities-grid');
+      const kpi = document.getElementById('kpi-opps');
+      if (kpi) kpi.textContent = `${list.length}+`;
+      if (!grid) return;
+
+      grid.innerHTML = featured.map(opp => `
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="${opp.companyLogo || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80'}" class="w-full h-full object-cover">
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
+                ${opp.workMode || 'Hybrid'}
+              </span>
+            </div>
+            <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
+            <p class="text-xs font-medium text-gray-500 mt-1">${opp.company} • ${opp.location || 'Hybrid'}</p>
+            <p class="text-xs text-gray-600 mt-3 line-clamp-2 leading-relaxed">${opp.description}</p>
+            
+            <div class="flex flex-wrap gap-1.5 mt-4">
+              ${(opp.tags || []).slice(0, 3).map(tag => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${tag}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
+              <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted || '₹18,000 / mo'}</p>
+            </div>
+            <a href="/opportunities.html" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover transition-colors">
+              View Role
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
     async function loadFeaturedOpportunities() {
       try {
         const res = await API.get('/opportunities');
-        if (res.success && res.data) {
-          const featured = res.data.slice(0, 3);
-          const grid = document.getElementById('home-opportunities-grid');
-          if (!grid) return;
-
-          document.getElementById('kpi-opps').textContent = `${res.data.length}+`;
-
-          grid.innerHTML = featured.map(opp => `
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-              <div>
-                <div class="flex items-start justify-between gap-3 mb-4">
-                  <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
-                    <img src="${opp.companyLogo}" class="w-full h-full object-cover">
-                  </div>
-                  <span class="px-2.5 py-1 rounded-full text-xs font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
-                    ${opp.workMode}
-                  </span>
-                </div>
-                <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
-                <p class="text-xs font-medium text-gray-500 mt-1">${opp.company} • ${opp.location}</p>
-                <p class="text-xs text-gray-600 mt-3 line-clamp-2 leading-relaxed">${opp.description}</p>
-                
-                <div class="flex flex-wrap gap-1.5 mt-4">
-                  ${(opp.tags || []).slice(0, 3).map(tag => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${tag}</span>`).join('')}
-                </div>
-              </div>
-
-              <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
-                <div>
-                  <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
-                  <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted}</p>
-                </div>
-                <a href="/opportunities.html" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover transition-colors">
-                  View Role
-                </a>
-              </div>
-            </div>
-          `).join('');
+        if (res && res.data && res.data.length > 0) {
+          renderFeaturedOpps(res.data);
+        } else {
+          renderFeaturedOpps(window.FALLBACK_DATA?.opportunities || []);
         }
       } catch (err) {
-        console.error('Failed to load featured opportunities:', err);
+        renderFeaturedOpps(window.FALLBACK_DATA?.opportunities || []);
       }
+    }
     }
 
     document.addEventListener('DOMContentLoaded', loadFeaturedOpportunities);

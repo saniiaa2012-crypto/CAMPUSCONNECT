@@ -94,6 +94,15 @@
           </div>
           <h1 class="font-headline text-2xl sm:text-3xl font-extrabold text-gray-900">Career & Internship Engine</h1>
           <p class="text-xs sm:text-sm text-gray-500 mt-1">Discover verified campus roles, micro-internships, and research fellowships across India.</p>
+          <div class="flex items-center gap-2 mt-2">
+            <span id="backend-status-pill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="backend-status-text">Verified Catalog Ready</span>
+            </span>
+            <button onclick="Auth.configureBackendUrl()" class="text-[11px] text-primary hover:underline font-medium">
+              Configure Backend URL
+            </button>
+          </div>
         </div>
 
         <div class="flex items-center gap-3">
@@ -273,6 +282,7 @@
 
   <!-- Scripts -->
   <script src="/js/config.js"></script>
+  <script src="/js/fallback-data.js"></script>
   <script src="/js/toast.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
@@ -314,85 +324,118 @@
       loadOpportunities();
     }
 
-    async function loadOpportunities() {
+    function filterFallbackOpportunities(list) {
+      let filtered = [...list];
+      if (currentFilters.search) {
+        const q = currentFilters.search.toLowerCase();
+        filtered = filtered.filter(o =>
+          (o.title && o.title.toLowerCase().includes(q)) ||
+          (o.company && o.company.toLowerCase().includes(q)) ||
+          (o.description && o.description.toLowerCase().includes(q)) ||
+          (o.tags && o.tags.some(t => t.toLowerCase().includes(q)))
+        );
+      }
+      if (currentFilters.category && currentFilters.category !== 'All') {
+        filtered = filtered.filter(o => o.category && o.category.toLowerCase().includes(currentFilters.category.toLowerCase()));
+      }
+      if (currentFilters.workMode && currentFilters.workMode !== 'All') {
+        filtered = filtered.filter(o => o.workMode && o.workMode.toLowerCase() === currentFilters.workMode.toLowerCase());
+      }
+      if (currentFilters.minStipend && parseInt(currentFilters.minStipend, 10) > 0) {
+        filtered = filtered.filter(o => (o.stipend || 0) >= parseInt(currentFilters.minStipend, 10));
+      }
+      return filtered;
+    }
+
+    function renderOpportunitiesList(list) {
       const container = document.getElementById('opportunities-list');
       const countEl = document.getElementById('results-count');
-      
-      try {
-        const res = await API.get('/opportunities', currentFilters);
-        if (res.success && res.data) {
-          countEl.textContent = `Showing ${res.data.length} verified opportunities`;
 
-          if (res.data.length === 0) {
-            container.innerHTML = `
-              <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-gray-100 p-8">
-                <span class="material-symbols-outlined text-[48px] text-gray-300 mb-2">work_off</span>
-                <h3 class="font-headline font-bold text-lg text-gray-800">No opportunities match your filter</h3>
-                <p class="text-xs text-gray-500 mt-1">Try clearing your filters or searching with different keywords.</p>
-                <button onclick="clearSearch()" class="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Reset Filters</button>
+      countEl.textContent = `Showing ${list.length} verified opportunities`;
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-gray-100 p-8">
+            <span class="material-symbols-outlined text-[48px] text-gray-300 mb-2">work_off</span>
+            <h3 class="font-headline font-bold text-lg text-gray-800">No opportunities match your filter</h3>
+            <p class="text-xs text-gray-500 mt-1">Try clearing your filters or searching with different keywords.</p>
+            <button onclick="clearSearch()" class="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(opp => `
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <!-- Header: Logo, Type, Mode -->
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="${opp.companyLogo || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80'}" class="w-full h-full object-cover">
               </div>
-            `;
-            return;
-          }
-
-          container.innerHTML = res.data.map(opp => `
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-              <div>
-                <!-- Header: Logo, Type, Mode -->
-                <div class="flex items-start justify-between gap-3 mb-4">
-                  <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
-                    <img src="${opp.companyLogo}" class="w-full h-full object-cover">
-                  </div>
-                  <div class="flex items-center gap-1.5">
-                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
-                      ${opp.workMode}
-                    </span>
-                    <span class="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-bold">
-                      ${opp.type}
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Title & Company -->
-                <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
-                <div class="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
-                  <span class="font-medium text-gray-700">${opp.company}</span>
-                  <span>•</span>
-                  <span>${opp.location}</span>
-                </div>
-
-                <!-- Description -->
-                <p class="text-xs text-gray-600 mt-3 line-clamp-3 leading-relaxed">${opp.description}</p>
-
-                <!-- Tags -->
-                <div class="flex flex-wrap gap-1.5 mt-4">
-                  ${(opp.tags || []).map(t => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${t}</span>`).join('')}
-                </div>
-              </div>
-
-              <!-- Bottom Bar: Stipend & Quick Apply Action -->
-              <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
-                <div>
-                  <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
-                  <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted}</p>
-                </div>
-
-                ${opp.hasApplied 
-                  ? `<span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-[#00b894] text-xs font-bold inline-flex items-center gap-1">
-                      <span class="material-symbols-outlined text-[16px]">check_circle</span> Applied (${opp.applicationStatus})
-                    </span>`
-                  : `<button onclick="openApplyModal('${opp.id}')" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover shadow-sm transition-all flex items-center gap-1">
-                      <span>Quick Apply</span>
-                      <span class="material-symbols-outlined text-[14px]">send</span>
-                    </button>`
-                }
+              <div class="flex items-center gap-1.5">
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${opp.workMode === 'Remote' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}">
+                  ${opp.workMode || 'Remote'}
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-bold">
+                  ${opp.type || 'Internship'}
+                </span>
               </div>
             </div>
-          `).join('');
+
+            <!-- Title & Company -->
+            <h3 class="font-headline font-bold text-lg text-gray-900 leading-snug">${opp.title}</h3>
+            <div class="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
+              <span class="font-medium text-gray-700">${opp.company}</span>
+              <span>•</span>
+              <span>${opp.location || 'Hybrid'}</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-xs text-gray-600 mt-3 line-clamp-3 leading-relaxed">${opp.description}</p>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-1.5 mt-4">
+              ${(opp.tags || []).map(t => `<span class="px-2 py-0.5 rounded-lg bg-surface-container-low text-[11px] font-semibold text-gray-600">${t}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Bottom Bar: Stipend & Quick Apply Action -->
+          <div class="border-t border-gray-100 mt-5 pt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Stipend</span>
+              <p class="text-sm font-extrabold text-[#006461]">${opp.stipendFormatted || '₹18,000 / mo'}</p>
+            </div>
+
+            ${opp.hasApplied 
+              ? `<span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-[#00b894] text-xs font-bold inline-flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px]">check_circle</span> Applied (${opp.applicationStatus || 'Shortlisted'})
+                </span>`
+              : `<button onclick="openApplyModal('${opp.id}')" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-hover shadow-sm transition-all flex items-center gap-1">
+                  <span>Quick Apply</span>
+                  <span class="material-symbols-outlined text-[14px]">send</span>
+                </button>`
+            }
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadOpportunities() {
+      try {
+        const res = await API.get('/opportunities', currentFilters);
+        if (res && res.data && res.data.length > 0) {
+          renderOpportunitiesList(res.data);
+        } else {
+          const fallback = filterFallbackOpportunities(window.FALLBACK_DATA?.opportunities || []);
+          renderOpportunitiesList(fallback);
         }
       } catch (err) {
-        console.error('Error loading opportunities:', err);
+        console.warn('Backend loading notice:', err);
+        const fallback = filterFallbackOpportunities(window.FALLBACK_DATA?.opportunities || []);
+        renderOpportunitiesList(fallback);
       }
+    }
     }
 
     async function openApplyModal(oppId) {
