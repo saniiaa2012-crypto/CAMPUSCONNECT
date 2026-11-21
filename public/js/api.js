@@ -1,6 +1,28 @@
 // Centralized API Client Wrapper
 const API = {
-  baseUrl: '/api',
+  // Configurable base URL: reads from localStorage, window variable, or defaults to '/api'
+  getBaseUrl() {
+    if (window.CAMPUSCONNECT_API_URL) {
+      return window.CAMPUSCONNECT_API_URL.replace(/\/+$/, '');
+    }
+    const customUrl = localStorage.getItem('cc_backend_api_url');
+    if (customUrl) {
+      return customUrl.replace(/\/+$/, '');
+    }
+    return '/api';
+  },
+
+  setBaseUrl(url) {
+    if (!url) {
+      localStorage.removeItem('cc_backend_api_url');
+    } else {
+      let clean = url.trim().replace(/\/+$/, '');
+      if (!clean.endsWith('/api') && !clean.includes('/api/')) {
+        clean = `${clean}/api`;
+      }
+      localStorage.setItem('cc_backend_api_url', clean);
+    }
+  },
 
   getToken() {
     return localStorage.getItem('cc_token');
@@ -20,6 +42,7 @@ const API = {
 
   async request(endpoint, options = {}) {
     const isMultipart = options.body instanceof FormData;
+    const base = this.getBaseUrl();
     const config = {
       ...options,
       headers: {
@@ -29,7 +52,7 @@ const API = {
     };
 
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, config);
+      const response = await fetch(`${base}${endpoint}`, config);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || `HTTP error ${response.status}`);

@@ -115,6 +115,16 @@ const Auth = {
     }
   },
 
+  configureBackendUrl() {
+    const current = localStorage.getItem('cc_backend_api_url') || '';
+    const newUrl = prompt('Enter your Render Backend URL (e.g. https://campusconnect-backend.onrender.com):', current);
+    if (newUrl !== null) {
+      API.setBaseUrl(newUrl);
+      Toast.success('Backend URL Updated', `Now pointing to: ${API.getBaseUrl()}`);
+      setTimeout(() => window.location.reload(), 1000);
+    }
+  },
+
   renderNavbarAuth() {
     const authContainer = document.getElementById('navbar-auth-section');
     if (!authContainer) return;
@@ -184,6 +194,10 @@ const Auth = {
               <span class="material-symbols-outlined text-[16px] text-primary">account_circle</span>
               My Dashboard
             </a>
+            <button onclick="Auth.configureBackendUrl()" class="w-full text-left flex items-center gap-2 px-3 py-2 text-xs font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+              <span class="material-symbols-outlined text-[16px] text-indigo-500">settings_ethernet</span>
+              Set Backend URL
+            </button>
             <button onclick="Auth.logout()" class="w-full text-left flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors">
               <span class="material-symbols-outlined text-[16px] text-red-500">logout</span>
               Sign Out

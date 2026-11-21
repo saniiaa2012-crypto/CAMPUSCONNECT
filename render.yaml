@@ -1,0 +1,18 @@
+# Render Blueprint Configuration - BACKEND ONLY
+services:
+  - type: web
+    name: campusconnect-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: UPLOAD_DIR
+        value: uploads

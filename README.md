@@ -1,6 +1,54 @@
-# 🎓 CampusConnect — Full-Stack Operating System for Indian Higher Education
+# 🎓 CampusConnect — REST API Backend & Full-Stack Ecosystem
 
 CampusConnect is a production-ready, full-stack campus platform designed to unify **student career discovery** (micro-internships, gigs, research fellowships with verified INR stipends), **accountable civic problem reporting & 5-phase SLA tracking** (*CampusFix*), **hyper-local campus services & student discounts**, and **inter-campus hackathons & events** into a single cohesive ecosystem.
+
+> **Note on Architecture:** The **Backend is built for standalone deployment on Render** as a pure Node.js REST API Web Service. The frontend can be hosted independently (e.g. Vercel, Netlify, GitHub Pages) or accessed locally, connecting directly to the Render API URL.
+
+---
+
+## ☁️ Deploying the Backend on Render (BACKEND ONLY)
+
+This repository includes a `render.yaml` blueprint and a pure REST API server (`server/server.js`) optimized for **Render Web Service**.
+
+### Option 1: Automatic Blueprint (Recommended)
+1. Go to your [Render Dashboard](https://dashboard.render.com).
+2. Click **New +** > **Blueprint**.
+3. Connect your repository: `https://github.com/saniiaa2012-crypto/CAMPUSCONNECT.git`.
+4. Render will automatically detect `render.yaml` and configure the **Node Web Service**.
+5. Click **Apply**. Render will install dependencies and start the backend service!
+
+### Option 2: Manual Web Service Setup
+If creating the Web Service manually on Render:
+1. Click **New +** > **Web Service**.
+2. Select your repository: `https://github.com/saniiaa2012-crypto/CAMPUSCONNECT.git`.
+3. Configure the following settings:
+   - **Name:** `campusconnect-backend`
+   - **Runtime:** `Node`
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+   - **Plan:** Free
+4. In the **Environment Variables** section, add:
+   - `NODE_ENV` = `production`
+   - `CORS_ORIGIN` = `*` (or your frontend domain URL)
+   - `JWT_SECRET` = `campusconnect_super_secret_jwt_key_2026`
+   - `PORT` = `10000` *(Render sets this automatically)*
+5. Click **Create Web Service**.
+
+Once deployed, your live backend URL will look like:
+👉 **`https://campusconnect-backend.onrender.com`**
+
+- Visiting `https://campusconnect-backend.onrender.com/` returns the API JSON status.
+- The health check is available at: `https://campusconnect-backend.onrender.com/api/health`.
+
+---
+
+## 🌐 Connecting the Frontend to your Render Backend
+
+When hosting your frontend separately (or opening `public/index.html` locally):
+1. Open the frontend in any browser.
+2. Click your profile avatar / menu in the top right > **Set Backend URL** (or in browser console run: `API.setBaseUrl('https://campusconnect-backend.onrender.com')`).
+3. Enter your live Render URL: `https://campusconnect-backend.onrender.com/api`.
+4. The frontend will now automatically direct all authentication, opportunities, CampusFix reports, and dashboard requests to your live Render backend!
 
 ---
 
@@ -41,7 +89,7 @@ CampusConnect is a production-ready, full-stack campus platform designed to unif
 
 | Layer | Technologies Used |
 | :--- | :--- |
-| **Backend** | Node.js (v20+), Express.js 5, JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `multer`, `cors`, `morgan` |
+| **Backend (Render)** | Node.js (v20+), Express.js 5, JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `multer`, `cors`, `morgan` |
 | **Database** | Persistent, atomic, zero-config JSON Document Store (`server/db/database.js`) — self-contained, no external database server setup required |
 | **Frontend** | Semantic HTML5, Tailwind CSS, Google Material Symbols, Plus Jakarta Sans & Inter typography, Vanilla ES6+ Modules |
 | **Design Tokens** | Indigo Modern Brand System (`#5341cd` primary, `#6c5ce7` accent, `#00b894` success, `#fbf8ff` background) |
@@ -51,13 +99,14 @@ CampusConnect is a production-ready, full-stack campus platform designed to unif
 ## 📁 Directory Structure
 
 ```text
-stitch_campusconnect_portal (2)/
+CAMPUSCONNECT/
+├── render.yaml                       # Render Blueprint deployment definition (Backend-only)
 ├── .env                              # Environment configuration
 ├── .env.example                      # Sample environment variables
 ├── package.json                      # Project scripts and dependencies
 ├── README.md                         # Full documentation
 ├── uploads/                          # Uploaded ticket photos & documents
-├── public/                           # Frontend Client Files
+├── public/                           # Standalone Frontend Client Files
 │   ├── index.html                    # Landing & Home Page
 │   ├── opportunities.html            # Opportunity Marketplace & Apply
 │   ├── campusfix.html                # CampusFix Civic Resolution Tracker
@@ -67,12 +116,12 @@ stitch_campusconnect_portal (2)/
 │   ├── css/
 │   │   └── style.css                 # Custom design tokens, glassmorphism & animations
 │   ├── js/
-│   │   ├── api.js                    # Centralized API fetch wrapper with JWT auth
+│   │   ├── api.js                    # Centralized API fetch wrapper with configurable backend URL
 │   │   ├── auth.js                   # Auth manager & 1-click Persona switcher
 │   │   └── toast.js                  # Toast notification feedback system
 │   └── assets/                       # Campus images, student portraits, logo
-└── server/                           # Backend Application
-    ├── server.js                     # Express app entry point & routes
+└── server/                           # Backend REST API Service (Render)
+    ├── server.js                     # Express app entry point & routes (API only)
     ├── db/
     │   ├── database.js               # Persistent JSON database engine with atomic writes
     │   └── seed.js                   # Initial seed data generator
@@ -97,46 +146,7 @@ stitch_campusconnect_portal (2)/
 
 ---
 
-## ⚡ Quick Start Guide
-
-### 1. Prerequisites
-- **Node.js** v18+ or v20+ (tested on Node.js v26.11)
-- **npm** (or `npm.cmd` on Windows)
-
-### 2. Installation
-From the project root folder:
-```bash
-npm install
-```
-
-### 3. Environment Variables
-A default `.env` file is already created. You can customize settings in `.env`:
-```env
-PORT=5000
-NODE_ENV=development
-JWT_SECRET=campusconnect_jwt_secret_key_2026_super_secure
-CORS_ORIGIN=*
-UPLOAD_DIR=uploads
-```
-
-### 4. Start the Application
-Run:
-```bash
-npm start
-```
-Or for development with automatic restart on file changes:
-```bash
-npm run dev
-```
-
-Open your browser at:
-👉 **`http://localhost:5000`**
-
----
-
 ## 👥 Pre-seeded Demo Personas & Credentials
-
-You can log in manually using these credentials, or **click the "Switch Role" button in the navigation bar** for 1-click instant access:
 
 | Persona | Name | Role | Email | Password |
 | :--- | :--- | :--- | :--- | :--- |
@@ -156,11 +166,7 @@ You can log in manually using these credentials, or **click the "Switch Role" bu
 - `POST /api/auth/switch-demo-persona` — Fast-switch between pre-seeded personas for evaluation
 
 ### 💼 Opportunities (`/api/opportunities`)
-- `GET /api/opportunities` — List opportunities with optional filters:
-  - `?search=<keyword>`
-  - `?category=<category>`
-  - `?workMode=<Remote|Hybrid|On-site>`
-  - `?minStipend=<amount>`
+- `GET /api/opportunities` — List opportunities with optional filters (`?search=`, `?category=`, `?workMode=`, `?minStipend=`)
 - `GET /api/opportunities/:id` — Get single opportunity details
 - `POST /api/opportunities` — Create new listing (*Recruiter / Faculty only*)
 - `POST /api/opportunities/:id/apply` — Apply for role (`coverNote`, `portfolioUrl`)
@@ -183,20 +189,6 @@ You can log in manually using these credentials, or **click the "Switch Role" bu
 
 ### 📊 Dashboard (`/api/dashboard`)
 - `GET /api/dashboard/stats` — Personalized metrics and feeds based on authenticated user role
-
----
-
-## 🧪 Verification & Health Check
-
-1. **Server Health Check**:
-   Visit `http://localhost:5000/api/health`
-   Returns: `{"status": "ok", "platform": "CampusConnect", "time": "..."}`
-
-2. **Database Re-seed (Optional)**:
-   If you ever want to reset the mock database back to initial state:
-   ```bash
-   npm run seed
-   ```
 
 ---
 

@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const { seedDatabase } = require('./db/seed');
 
-// Routes
+// Route Modules
 const authRoutes = require('./routes/auth');
 const opportunitiesRoutes = require('./routes/opportunities');
 const campusfixRoutes = require('./routes/campusfix');
@@ -24,18 +24,45 @@ if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-// Seed mock data if first run
+// Seed mock data if not already present
 seedDatabase();
 
-// Middleware
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+// CORS Configuration - Allows standalone frontend (Vercel, Netlify, localhost, etc.) to call this Render backend
+const corsOrigin = process.env.CORS_ORIGIN || '*';
+app.use(cors({
+  origin: corsOrigin === '*' ? '*' : corsOrigin.split(',').map(s => s.trim()),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-// Static files: Serve uploads and public frontend
+// Static uploads serving (for ticket photo attachments)
 app.use('/uploads', express.static(UPLOAD_DIR));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Root Endpoint - Backend API Service Welcome & Info (No Frontend)
+app.get('/', (req, res) => {
+  res.json({
+    name: 'CampusConnect Backend API',
+    status: 'online',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    serverTime: new Date().toISOString(),
+    message: 'CampusConnect REST API service is running on Render.',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      opportunities: '/api/opportunities',
+      campusfix: '/api/campusfix',
+      services: '/api/services',
+      events: '/api/events',
+      dashboard: '/api/dashboard'
+    }
+  });
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -45,27 +72,27 @@ app.use('/api/services', servicesRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// Health check endpoint
+// Health check endpoint for Render / Uptime monitors
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    platform: 'CampusConnect',
-    time: new Date().toISOString(),
-    uptime: process.uptime()
+    service: 'CampusConnect Backend API',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
   });
 });
 
-// Fallback route for Single Page navigation
-app.use((req, res, next) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ success: false, message: 'API endpoint not found' });
-  }
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+// 404 Handler for any non-existing endpoint (API only)
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `API endpoint '${req.method} ${req.originalUrl}' not found.`
+  });
 });
 
-// Error handling middleware
+// Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Unhandled Server Error:', err);
+  console.error('Unhandled API Error:', err);
   res.status(500).json({
     success: false,
     message: err.message || 'Internal Server Error'
@@ -74,8 +101,8 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`=======================================================`);
-  console.log(`🚀 CampusConnect Portal Server running on http://localhost:${PORT}`);
-  console.log(`📡 REST API available at http://localhost:${PORT}/api`);
-  console.log(`💻 Frontend served at http://localhost:${PORT}`);
+  console.log(`🚀 CampusConnect BACKEND API running on port ${PORT}`);
+  console.log(`📡 Base API URL: http://localhost:${PORT}/api`);
+  console.log(`🌐 Mode: BACKEND-ONLY (Render ready)`);
   console.log(`=======================================================`);
 });
